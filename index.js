@@ -7,7 +7,7 @@ export default {
     const country = request.headers.get("cf-ipcountry") || "XX";
     const timestamp = new Date().toUTCString();
 
-    if (path.startsWith("/secure/") && path.split("/")[2]) {
+    if (path.startsWith("/insecure/") && path.split("/")[2]) {
       const targetCountry = path.split("/")[2].toLowerCase();
       const fileName = `${targetCountry}.png`;
 
@@ -23,7 +23,7 @@ export default {
       return new Response(object.body, { headers });
     }
 
-    if (path === "/secure" || path === "/secure/") {
+    if (path === "/insecure" || path === "/insecure/") {
       const htmlContent = `
         <!DOCTYPE html>
         <html>
