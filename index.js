@@ -29,7 +29,7 @@ export default {
         <html>
         <body>
           <p>${email} authenticated at ${timestamp} from 
-            <a href="/secure/${country.toLowerCase()}">${country}</a>
+            <a href="/insecure/${country.toLowerCase()}">${country}</a>
           </p>
         </body>
         </html>
