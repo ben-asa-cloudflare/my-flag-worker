@@ -3,6 +3,7 @@ main = "index.js"
 compatibility_date = "2024-03-14"
 account_id = "25ecdeeaeebf2d99ec0347655317d622"
 
+// additional "insecure" (!) routes for testing (outside of CLoudflare Access)
 routes = [
   { pattern = "tunnel.benmorgan.uk/insecure", zone_name = "benmorgan.uk" },
   { pattern = "tunnel.benmorgan.uk/insecure/*", zone_name = "benmorgan.uk" },
