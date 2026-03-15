@@ -10,8 +10,13 @@ jobs:
       - uses: actions/checkout@v4
       - name: Inject Secrets into Wrangler.toml
         run: |
-          sed -i "s/REPLACE_DOMAIN/${{ secrets.CLOUDFLARE_DOMAIN }}/g" wrangler.toml
-          sed -i "s/REPLACE_ZONE/${{ secrets.CLOUDFLARE_ZONE_NAME }}/g" wrangler.toml
+          # Use different delimiters (|) to avoid issues with dots in domains
+          sed -i "s|REPLACE_DOMAIN|${{ secrets.CLOUDFLARE_DOMAIN }}|g" wrangler.toml
+          sed -i "s|REPLACE_ZONE|${{ secrets.CLOUDFLARE_ZONE_NAME }}|g" wrangler.toml
+          
+          # This lets you verify the file was actually changed in the logs
+          echo "Verifying wrangler.toml content:"
+          cat wrangler.toml
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
         with:
