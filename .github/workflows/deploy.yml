@@ -13,6 +13,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: |
-            deploy --route "${{ secrets.CLOUDFLARE_DOMAIN }}/secure" \
-                   --route "${{ secrets.CLOUDFLARE_DOMAIN }}/secure/*"
+        env:
+          DOMAIN: ${{ secrets.CLOUDFLARE_DOMAIN }}
+          ZONE_NAME: ${{ secrets.CLOUDFLARE_ZONE_NAME }}
