@@ -2,9 +2,9 @@ name = "secure-worker"
 main = "index.js"
 compatibility_date = "2024-03-14"
 #routes = [
-  { pattern = "tunnel.benmorgan.uk/secure", zone_name = "benmorgan.uk" },
-  { pattern = "tunnel.benmorgan.uk/secure/*", zone_name = "benmorgan.uk" }
-]
+#  { pattern = "tunnel.benmorgan.uk/secure", zone_name = "benmorgan.uk" },
+#  { pattern = "tunnel.benmorgan.uk/secure/*", zone_name = "benmorgan.uk" }
+#]
 [[r2_buckets]]
 binding = "FLAGS_BUCKET"
 bucket_name = "country-flags"
