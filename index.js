@@ -1,15 +1,18 @@
 export default {
   async fetch(request, env) {
 
+    
     // CREATE AN OBJECT FROM THE URL AND GRAB THE PATH FROM IT
     const url = new URL(request.url);
     const path = url.pathname;
 
+    
     // GET THE HEADERS FROM INBOUND REQUEST AND THE TIME
     const email = request.headers.get("cf-access-authenticated-user-email") || "Unknown User";
     const country = request.headers.get("cf-ipcountry") || "XX";
     const timestamp = new Date().toUTCString();
 
+    
     // GET THE FLAG FROM R2 AND RETURN IN RESPONSE
     if (path.startsWith("/secure/") && path.split("/")[2]) {
       const targetCountry = path.split("/")[2].toLowerCase();
@@ -24,6 +27,7 @@ export default {
       return new Response(object.body, { headers });
     }
 
+    
     // CREATE VARIABLE CONTAINING HTML AND THE LITERALS DEFINED ABOVE AND RETURN IN RESPONSE
     if (path === "/secure" || path === "/secure/") {
       const htmlContent = `
@@ -40,6 +44,7 @@ export default {
         headers: { "Content-Type": "text/html" },
       });
     }
+
     
   },
 };
