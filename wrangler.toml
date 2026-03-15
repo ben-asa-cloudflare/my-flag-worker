@@ -2,13 +2,10 @@ name = "secure-worker"
 main = "index.js"
 compatibility_date = "2024-03-14"
 account_id = "25ecdeeaeebf2d99ec0347655317d622"
-
-# additional "insecure" (!) routes for testing (outside of Cloudflare Access)
 routes = [
   { pattern = "tunnel.benmorgan.uk/secure", zone_name = "benmorgan.uk" },
   { pattern = "tunnel.benmorgan.uk/secure/*", zone_name = "benmorgan.uk" }
 ]
-
 [[r2_buckets]]
 binding = "FLAGS_BUCKET"
 bucket_name = "country-flags"
