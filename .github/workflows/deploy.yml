@@ -1,13 +1,49 @@
+#name: Deploy Worker
+#on:
+#  push:
+#    branches:
+#      - main
+#jobs:
+#  deploy:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: Deploy
+#        uses: cloudflare/wrangler-action@v3
+#        with:
+#          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+#          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 name: Deploy Worker
+
 on:
   push:
     branches:
       - main
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Create wrangler.toml
+        run: |
+          cat <<EOF > wrangler.toml
+          name = "secure-worker"
+          main = "src/index.js"
+          compatibility_date = "2024-01-01"
+          workers_dev = false
+
+          routes = [
+            { pattern = "${{ secrets.CLOUDFLARE_DOMAIN }}/secure", zone_name = "${{ secrets.CLOUDFLARE_ZONE_NAME }}" },
+            { pattern = "${{ secrets.CLOUDFLARE_DOMAIN }}/secure/*", zone_name = "${{ secrets.CLOUDFLARE_ZONE_NAME }}" }
+          ]
+
+          [[r2_buckets]]
+          binding = "FLAGS_BUCKET"
+          bucket_name = "country-flags"
+          EOF
+
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
         with:
