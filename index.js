@@ -1,11 +1,17 @@
 export default {
   async fetch(request, env) {
+
+    // CREATE AN OBJECT FROM THE URL AND GRAB THE PATH FROM IT
     const url = new URL(request.url);
     const path = url.pathname;
+
+    // GET THE HEADERS FROM INBOUND REQUEST AND THE TIME
     const email = request.headers.get("cf-access-authenticated-user-email") || "Unknown User";
     const country = request.headers.get("cf-ipcountry") || "XX";
     const timestamp = new Date().toUTCString();
-    if ((path.startsWith("/insecure/") || path.startsWith("/secure/")) && path.split("/")[2]) {
+
+    // GET THE FLAG FROM R2 AND RETURN IN RESPONSE
+    if (path.startsWith("/secure/") && path.split("/")[2]) {
       const targetCountry = path.split("/")[2].toLowerCase();
       const fileName = `${targetCountry}.png`;
       const object = await env.FLAGS_BUCKET.get(fileName);
@@ -14,24 +20,11 @@ export default {
       }
       const headers = new Headers();
       object.writeHttpMetadata(headers);
-      headers.set("Content-Type", "image/png"); // Appropriate content type
+      headers.set("Content-Type", "image/png");   // SET THE CONTENT TYPE
       return new Response(object.body, { headers });
     }
-    if (path === "/insecure" || path === "/insecure/") {
-      const htmlContent = `
-        <!DOCTYPE html>
-        <html>
-        <body>
-          <p>${email} authenticated at ${timestamp} from 
-            <a href="/insecure/${country.toLowerCase()}">${country}</a>
-          </p>
-        </body>
-        </html>
-      `;
-      return new Response(htmlContent, {
-        headers: { "Content-Type": "text/html" },
-      });
-    }
+
+    // CREATE VARIABLE CONTAINING HTML AND THE LITERALS DEFINED ABOVE AND RETURN IN RESPONSE
     if (path === "/secure" || path === "/secure/") {
       const htmlContent = `
         <!DOCTYPE html>
@@ -46,6 +39,7 @@ export default {
       return new Response(htmlContent, {
         headers: { "Content-Type": "text/html" },
       });
-    }     
+    }
+    
   },
 };
