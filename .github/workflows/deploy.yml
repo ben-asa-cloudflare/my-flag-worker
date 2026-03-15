@@ -14,5 +14,5 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: |
-            deploy --routes "${{ secrets.CLOUDFLARE_DOMAIN }}/secure" \
-                   --routes "${{ secrets.CLOUDFLARE_DOMAIN }}/secure/*"
+            deploy --route "${{ secrets.CLOUDFLARE_DOMAIN }}/secure" \
+                   --route "${{ secrets.CLOUDFLARE_DOMAIN }}/secure/*"
